@@ -89,6 +89,19 @@ void test_raw_linked_list(int n) {
     ll_clear(ls);
 }
 
+void test_typed_linked_list(int n) {
+    LinkedListOf(int) ls = ll_init_t(int); //list of int
+    for (int i = 1; i <= n; i++) ll_push_back_t(ls, i*i);
+
+    int i = 1;
+    for (auto it = ll_head_t(ls); it != ll_end_t(ls); it = ll_next(it)) {
+        assert(*ll_at_t(it) == i*i);
+        i++;
+    }
+
+    ll_clear_t(ls);
+}
+
 int main(void) {
     int n = 50000;
     printf("raw stack: \n");
@@ -108,7 +121,11 @@ int main(void) {
     printf("passed\n\n");
 
     printf("raw linked list: \n");
-    test_raw_linked_list(20);
+    test_raw_linked_list(n);
+    printf("passed\n\n");
+
+    printf("typed linked list: \n");
+    test_typed_linked_list(n);
     printf("passed\n\n");
 
     //TODO: make better tests
