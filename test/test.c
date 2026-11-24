@@ -74,7 +74,19 @@ void test_typed_array_list(int n) {
 }
 
 void test_raw_linked_list(int n) {
+    LinkedList ls = ll_init(4); //list of int
 
+    for (int i = 1; i <= n; i++) ll_push_back(ls, &(int){i*i});
+        // if (i%2 == 1) ll_push_back(ls, &(int){i*i});
+        // else          ll_push_front(ls, &(int){i*i});
+
+    int i = 1;
+    for (auto it = ll_head(ls); it != ll_end(ls); it = ll_next(it)) {
+        assert(*(int*)ll_at(it) == i*i);
+        i++;
+    }
+
+    ll_clear(ls);
 }
 
 int main(void) {
@@ -95,5 +107,10 @@ int main(void) {
     test_typed_array_list(n);
     printf("passed\n\n");
 
+    printf("raw linked list: \n");
+    test_raw_linked_list(20);
+    printf("passed\n\n");
+
+    //TODO: make better tests
     return 0;
 }

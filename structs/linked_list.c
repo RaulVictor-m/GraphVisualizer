@@ -1,6 +1,5 @@
 #include "linked_list.h"
 #include "mem.h"
-#include <assert.h>
 
 typedef struct Node Node;
 struct Node {
