@@ -18,7 +18,7 @@ bin/test: test/test.c $(BUILD)/structs.a
 	mkdir -p bin
 	gcc $^ -I$(STRUCT_DIR) -o bin/test
 
-run_test: test
+run_test: bin/test
 	$(DEBUG_PROGRAM) bin/test
 
 all: $(BUILD)/structs.a bin/test
