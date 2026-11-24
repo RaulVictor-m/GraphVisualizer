@@ -46,7 +46,7 @@ static void _shrink(ArrayList vs) {
 }
 
 // public:
-ArrayList al_init(size_t n, size_t elem_size) { 
+ArrayList al_init_r(size_t n, size_t elem_size) { 
     ArrayList vs = alloc(sizeof(struct ArrayList));
 
     vs->size = n;
@@ -58,21 +58,21 @@ ArrayList al_init(size_t n, size_t elem_size) {
     return vs; 
 };
 
-void al_clear(ArrayList vs) { 
+void al_clear_r(ArrayList vs) { 
     dealloc(vs->data);
     dealloc(vs);
 };
 
-size_t al_size(ArrayList vs) { return vs->size; };
+size_t al_size_r(ArrayList vs) { return vs->size; };
 
-void al_push_back(ArrayList vs, void *new_data) {
+void al_push_back_r(ArrayList vs, void *new_data) {
     if (vs->size == vs->cap) _grow(vs);
 
     copy(vs->data + vs->size * vs->elem_sz, new_data, vs->elem_sz);
     vs->size++;
 }
 
-void al_pop_back(ArrayList vs) {
+void al_pop_back_r(ArrayList vs) {
     if (vs->size == 0) {
         _error(EmptyPop);
         return;
@@ -82,7 +82,7 @@ void al_pop_back(ArrayList vs) {
     _shrink(vs);
 }
 
-void* al_at(ArrayList vs, size_t i) {
+void* al_at_r(ArrayList vs, size_t i) {
     if (i > vs->size) {
         _error(IndexOutOfBounds);
         return 0;
@@ -91,10 +91,10 @@ void* al_at(ArrayList vs, size_t i) {
     return vs->data + i*vs->elem_sz;
 }
 
-void* al_back(ArrayList vs) {
-    return al_at(vs, vs->size-1);
+void* al_back_r(ArrayList vs) {
+    return al_at_r(vs, vs->size-1);
 }
 
-void* al_front(ArrayList vs) {
-    return al_at(vs, 0);
+void* al_front_r(ArrayList vs) {
+    return al_at_r(vs, 0);
 }

@@ -32,7 +32,7 @@ void _del_node(Node* node) {
 
 // public
 
-LinkedList ll_init(size_t elem_size) {
+LinkedList ll_init_r(size_t elem_size) {
     LinkedList ls = alloc(sizeof(struct LinkedList));
     ls->sent.next = ls->sent.prev = &ls->sent;
 
@@ -42,38 +42,38 @@ LinkedList ll_init(size_t elem_size) {
     return ls;
 }
 
-void ll_clear(LinkedList ls) {
-    while (ls->size > 0) ll_pop_back(ls);
+void ll_clear_r(LinkedList ls) {
+    while (ls->size > 0) ll_pop_back_r(ls);
     dealloc(ls);
 }
 
-size_t ll_size(LinkedList ls) { return ls->size; }
+size_t ll_size_r(LinkedList ls) { return ls->size; }
 
-void* ll_head(LinkedList ls) {
+void* ll_head_r(LinkedList ls) {
     return ls->sent.next;
 }
 
-void* ll_tail(LinkedList ls) {
+void* ll_tail_r(LinkedList ls) {
     return ls->sent.prev;
 }
 
-void* ll_end(LinkedList ls) {
+void* ll_end_r(LinkedList ls) {
     return &ls->sent;
 }
 
-void* ll_next(void* it) {
+void* ll_next_r(void* it) {
     return ((Node*)it)->next;
 }
 
-void* ll_prev(void* it) {
+void* ll_prev_r(void* it) {
     return ((Node*)it)->prev;
 }
 
-void* ll_at(void* it) {
+void* ll_at_r(void* it) {
     return ((Node*)it)->data; //TODO: check not empty
 }
 
-void ll_insert_after(LinkedList ls, void* it, void* new_data) {
+void ll_insert_after_r(LinkedList ls, void* it, void* new_data) {
     Node* node = _new_node(new_data, ls->elem_sz);
 
     node->next = ((Node*)it)->next;
@@ -84,7 +84,7 @@ void ll_insert_after(LinkedList ls, void* it, void* new_data) {
     ls->size++;
 }
 
-void ll_insert_before(LinkedList ls, void* it, void* new_data) {
+void ll_insert_before_r(LinkedList ls, void* it, void* new_data) {
     Node* node = _new_node(new_data, ls->elem_sz);
 
     node->prev = ((Node*)it)->prev;
@@ -95,15 +95,15 @@ void ll_insert_before(LinkedList ls, void* it, void* new_data) {
     ls->size++;
 }
 
-void ll_push_back(LinkedList ls, void* new_data) {
-    ll_insert_before(ls, &ls->sent, new_data);
+void ll_push_back_r(LinkedList ls, void* new_data) {
+    ll_insert_before_r(ls, &ls->sent, new_data);
 }
 
-void ll_push_front(LinkedList ls, void* new_data) {
-    ll_insert_after(ls, &ls->sent, new_data);
+void ll_push_front_r(LinkedList ls, void* new_data) {
+    ll_insert_after_r(ls, &ls->sent, new_data);
 }
 
-void ll_del_at(LinkedList ls, void* it) {
+void ll_del_at_r(LinkedList ls, void* it) {
     if (it == (&ls->sent)) {
         //TODO: error
         return;
@@ -114,12 +114,12 @@ void ll_del_at(LinkedList ls, void* it) {
     ls->size--;
 }
 
-void ll_pop_back(LinkedList ls) {
-    ll_del_at(ls, ls->sent.prev);
+void ll_pop_back_r(LinkedList ls) {
+    ll_del_at_r(ls, ls->sent.prev);
 }
 
-void ll_pop_front(LinkedList ls) {
-    ll_del_at(ls, ls->sent.next);
+void ll_pop_front_r(LinkedList ls) {
+    ll_del_at_r(ls, ls->sent.next);
 }
 
 

@@ -6,13 +6,30 @@
 #include "linked_list.h"
 
 void test_raw_stack(int n) {
-    Stack st = st_init(4); // int stack
+    Stack st = st_init_r(4); // int stack
 
     for (int i = 1; i <= n; i++) 
-        st_push(st, &(int){i*i});
+        st_push_r(st, &(int){i*i});
 
     for (int i = n; i > 0; i--) {
-        assert(*(int*)st_top(st) == i*i);
+        assert(*(int*)st_top_r(st) == i*i);
+        assert(st_size_r(st) == i);
+
+        st_pop_r(st);
+        assert(st_size_r(st) == i-1);
+    }
+
+    st_clear_r(st);
+}
+
+void test_typed_stack(int n) {
+    StackOf(int) st = st_init(int); // int stack
+
+    for (int i = 1; i <= n; i++) 
+        st_push(st, i*i);
+
+    for (int i = n; i > 0; i--) {
+        assert(*st_top(st) == i*i);
         assert(st_size(st) == i);
 
         st_pop(st);
@@ -22,31 +39,31 @@ void test_raw_stack(int n) {
     st_clear(st);
 }
 
-void test_typed_stack(int n) {
-    StackOf(int) st = st_init_t(int); // int stack
+void test_raw_array_list(int n) {
+    ArrayList vs = al_init_r(n, 4);
 
     for (int i = 1; i <= n; i++) 
-        st_push_t(st, i*i);
+        *(int*)al_at_r(vs, i-1) = i*i;
 
     for (int i = n; i > 0; i--) {
-        assert(*st_top_t(st) == i*i);
-        assert(st_size_t(st) == i);
+        assert(*(int*)al_at_r(vs, i-1) == i*i);
+        assert(al_size_r(vs) == i);
 
-        st_pop_t(st);
-        assert(st_size_t(st) == i-1);
+        al_pop_back_r(vs);
+        assert(al_size_r(vs) == i-1);
     }
 
-    st_clear_t(st);
+    al_clear_r(vs);
 }
 
-void test_raw_array_list(int n) {
-    ArrayList vs = al_init(n, 4);
+void test_typed_array_list(int n) {
+    ArrayListOf(int) vs = al_init(n, int);
 
     for (int i = 1; i <= n; i++) 
-        *(int*)al_at(vs, i-1) = i*i;
+        *al_at(vs, i-1) = i*i;
 
     for (int i = n; i > 0; i--) {
-        assert(*(int*)al_at(vs, i-1) == i*i);
+        assert(*al_at(vs, i-1) == i*i);
         assert(al_size(vs) == i);
 
         al_pop_back(vs);
@@ -56,50 +73,33 @@ void test_raw_array_list(int n) {
     al_clear(vs);
 }
 
-void test_typed_array_list(int n) {
-    ArrayListOf(int) vs = al_init_t(n, int);
+void test_raw_linked_list(int n) {
+    LinkedList ls = ll_init_r(4); //list of int
 
-    for (int i = 1; i <= n; i++) 
-        *al_at_t(vs, i-1) = i*i;
+    for (int i = 1; i <= n; i++) ll_push_back_r(ls, &(int){i*i});
+        // if (i%2 == 1) ll_push_back_r(ls, &(int){i*i});
+        // else          ll_push_front_r(ls, &(int){i*i});
 
-    for (int i = n; i > 0; i--) {
-        assert(*al_at_t(vs, i-1) == i*i);
-        assert(al_size_t(vs) == i);
-
-        al_pop_back_t(vs);
-        assert(al_size_t(vs) == i-1);
+    int i = 1;
+    for (auto it = ll_head_r(ls); it != ll_end_r(ls); it = ll_next_r(it)) {
+        assert(*(int*)ll_at_r(it) == i*i);
+        i++;
     }
 
-    al_clear_t(vs);
+    ll_clear_r(ls);
 }
 
-void test_raw_linked_list(int n) {
-    LinkedList ls = ll_init(4); //list of int
-
-    for (int i = 1; i <= n; i++) ll_push_back(ls, &(int){i*i});
-        // if (i%2 == 1) ll_push_back(ls, &(int){i*i});
-        // else          ll_push_front(ls, &(int){i*i});
+void test_typed_linked_list(int n) {
+    LinkedListOf(int) ls = ll_init(int); //list of int
+    for (int i = 1; i <= n; i++) ll_push_back(ls, i*i);
 
     int i = 1;
     for (auto it = ll_head(ls); it != ll_end(ls); it = ll_next(it)) {
-        assert(*(int*)ll_at(it) == i*i);
+        assert(*ll_at(it) == i*i);
         i++;
     }
 
     ll_clear(ls);
-}
-
-void test_typed_linked_list(int n) {
-    LinkedListOf(int) ls = ll_init_t(int); //list of int
-    for (int i = 1; i <= n; i++) ll_push_back_t(ls, i*i);
-
-    int i = 1;
-    for (auto it = ll_head_t(ls); it != ll_end_t(ls); it = ll_next(it)) {
-        assert(*ll_at_t(it) == i*i);
-        i++;
-    }
-
-    ll_clear_t(ls);
 }
 
 int main(void) {
