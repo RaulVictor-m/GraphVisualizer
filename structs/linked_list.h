@@ -11,8 +11,9 @@ void ll_clear(LinkedList ls);
 
 size_t ll_size(LinkedList ls);
 
-void* ll_begin(LinkedList ls);
-void* ll_end(LinkedList ls);
+void* ll_head(LinkedList ls);
+void* ll_tail(LinkedList ls);
+void* ll_end(LinkedList ls); // returns the sentinal marking the end of the iteration
 
 void* ll_next(void* it);
 void* ll_prev(void* it);

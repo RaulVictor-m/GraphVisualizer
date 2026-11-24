@@ -50,12 +50,16 @@ void ll_clear(LinkedList ls) {
 
 size_t ll_size(LinkedList ls) { return ls->size; }
 
-void* ll_begin(LinkedList ls) {
+void* ll_head(LinkedList ls) {
     return ls->sent.next;
 }
 
-void* ll_end(LinkedList ls) {
+void* ll_tail(LinkedList ls) {
     return ls->sent.prev;
+}
+
+void* ll_end(LinkedList ls) {
+    return &ls->sent;
 }
 
 void* ll_next(void* it) {
