@@ -97,11 +97,11 @@ void ll_insert_before(LinkedList ls, void* it, void* new_data) {
 }
 
 void ll_push_back(LinkedList ls, void* new_data) {
-    ll_insert_after(ls, &ls->sent, new_data);
+    ll_insert_before(ls, &ls->sent, new_data);
 }
 
 void ll_push_front(LinkedList ls, void* new_data) {
-    ll_insert_before(ls, &ls->sent, new_data);
+    ll_insert_after(ls, &ls->sent, new_data);
 }
 
 void ll_del_at(LinkedList ls, void* it) {
