@@ -3,6 +3,7 @@
 
 #include "stack.h"
 #include "array_list.h"
+#include "linked_list.h"
 
 void test_raw_stack(int n) {
     Stack st = st_init(4); // int stack
@@ -72,6 +73,9 @@ void test_typed_array_list(int n) {
     al_clear_t(vs);
 }
 
+void test_raw_linked_list(int n) {
+
+}
 
 int main(void) {
     int n = 50000;

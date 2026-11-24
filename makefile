@@ -14,10 +14,14 @@ $(BUILD)/struct_%.o: $(STRUCT_DIR)/%.c
 $(BUILD)/structs.a: $(STRUCT_OBJS)
 	ar rcs $@ $^
 
-test: test/test.c $(BUILD)/structs.a
+bin/test: test/test.c $(BUILD)/structs.a
 	mkdir -p bin
 	gcc $^ -I$(STRUCT_DIR) -o bin/test
+
+run_test: test
 	$(DEBUG_PROGRAM) bin/test
+
+all: $(BUILD)/structs.a bin/test
 
 clean:
 	rm -rf build/* bin/*
