@@ -31,39 +31,58 @@ void ll_del_at_r(LinkedList ls, void* it);
 void ll_pop_back_r(LinkedList ls);
 void ll_pop_front_r(LinkedList ls);
 
-#ifndef TYPE_OF
-#define TYPE_OF __typeof__
-#endif
+#include "phantom.h"
 
-#define LinkedListOf(T)  T*
-#define ll_init(T)    ((T*)ll_init_r(sizeof(T)))
-#define ll_clear(ls)  ll_clear_r((LinkedList)(ls))
+#define LL_CHK(ls) \
+    PH_CHK(ls, __LL_TAG, "Expected LinkedListOf(T)")
 
-#define ll_size(ls)   ll_size((LinkedList*)(ls))
+#define LL_CHK_IT(it) \
+    PH_CHK(it, __LL_IT_TAG, "Expected LinkedListIt(T)")
 
-#define ll_head(ls)   ((TYPE_OF(*(ls))*)ll_head_r((LinkedList)(ls)))
-#define ll_tail(ls)   ((TYPE_OF(*(ls))*)ll_tail_r((LinkedList)(ls)))
-#define ll_end(ls)    ((TYPE_OF(*(ls))*)ll_end_r((LinkedList)(ls)))
+#define LL_T(x)          PH_ELEM(x)
+#define LL_CAST(ls)      ((LinkedList)(ls))
+#define LinkedListOf(T)  PH_TYPE(T, __LL_TAG)
+#define LinkedListIt(T)  PH_TYPE(T, __LL_IT_TAG)
 
-#define ll_at(it)     ((TYPE_OF(*(it))*)ll_at_r((void*)(it)))
-#define ll_next(it)   ((TYPE_OF(*(it))*)ll_next_r((void*)(it)))
-#define ll_prev(it)   ((TYPE_OF(*(it))*)ll_prev_r((void*)(it)))
+#define ll_init(T)   ((LinkedListOf(T))ll_init_r(sizeof(T)))
+#define ll_clear(ls) (LL_CHK(ls), ll_clear_r(LL_CAST(ls)))
 
-#define ll_insert_after(ls, it, ...) \
-    ll_insert_after_r((LinkedList)(ls), (void*)(it), &(TYPE_OF(*(ls))){__VA_ARGS__})
+#define ll_size(ls)  (LL_CHK(ls), ll_size_r(LL_CAST(ls)))
 
-#define ll_insert_before(ls, it, ...) \
-    ll_insert_before_r((LinkedList)(ls), (void*)(it), &(TYPE_OF(*(ls))){__VA_ARGS__})
+#define ll_head(ls)  (LL_CHK(ls), (LinkedListIt(LL_T(ls)))ll_head_r(LL_CAST(ls)))
+#define ll_tail(ls)  (LL_CHK(ls), (LinkedListIt(LL_T(ls)))ll_tail_r(LL_CAST(ls)))
+#define ll_end(ls)   (LL_CHK(ls), (LinkedListIt(LL_T(ls)))ll_end_r(LL_CAST(ls)))
 
-#define ll_push_back(ls, ...) \
-    ll_push_back_r((LinkedList)(ls), &(TYPE_OF(*(ls))){__VA_ARGS__})
+#define ll_at(it)    (LL_CHK_IT(it), (LL_T(ls)*)ll_at_r((void*)(it)))
+#define ll_next(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(ls)))ll_next_r((void*)(it)))
+#define ll_prev(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(ls)))ll_prev_r((void*)(it)))
 
-#define ll_push_front(ls, ...) \
-    ll_push_front_r((LinkedList)(ls), &(TYPE_OF(*(ls))){__VA_ARGS__})
+#define ll_insert_after(ls, it, ...) (\
+    LL_CHK(ls), LL_CHK_IT(it), \
+    ll_insert_after_r(LL_CAST(ls), (void*)(it), &(LL_T(ls)){__VA_ARGS__}))
 
-#define ll_del_at(ls, it)   ll_del_at_r((LinkedList)(ls), (void*)(it))
+#define ll_insert_before(ls, it, ...) (\
+    LL_CHK(ls), LL_CHK_IT(it), \
+    ll_insert_before_r(LL_CAST(ls), (void*)(it), &(LL_T(ls)){__VA_ARGS__}))
 
-#define ll_pop_back(ls)     ll_pop_back_r((LinkedList)(ls))
-#define ll_pop_front(ls)    ll_pop_front_r((LinkedList)(ls))
+#define ll_push_back(ls, ...) (\
+    LL_CHK(ls), \
+    ll_push_back_r(LL_CAST(ls), &(LL_T(ls)){__VA_ARGS__}))
+
+#define ll_push_front(ls, ...) (\
+    LL_CHK(ls), \
+    ll_push_front_r(LL_CAST(ls), &(LL_T(ls)){__VA_ARGS__}))
+
+#define ll_del_at(ls, it) (\
+    LL_CHK(ls), LL_CHK_IT(it), \
+    ll_del_at_r(LL_CAST(ls), (void*)(it)))
+
+#define ll_pop_back(ls) (\
+    LL_CHK(ls), \
+    ll_pop_back_r(LL_CAST(ls)))
+
+#define ll_pop_front(ls) (\
+    LL_CHK(ls), \
+    ll_pop_back_r(LL_CAST(ls)))
 
 #endif // linked_list_h_INCLUDED

@@ -56,14 +56,14 @@ ArrayList al_init_r(size_t n, size_t elem_size) {
     vs->data = alloc(vs->cap * vs->elem_sz);
 
     return vs; 
-};
+}
 
 void al_clear_r(ArrayList vs) { 
     dealloc(vs->data);
     dealloc(vs);
-};
+}
 
-size_t al_size_r(ArrayList vs) { return vs->size; };
+size_t al_size_r(ArrayList vs) { return vs->size; }
 
 void al_push_back_r(ArrayList vs, void *new_data) {
     if (vs->size == vs->cap) _grow(vs);
