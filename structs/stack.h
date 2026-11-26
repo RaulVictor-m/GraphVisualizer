@@ -11,19 +11,26 @@ void st_pop_r(Stack st);
 void* st_top_r(Stack st);
 void st_clear_r(Stack st);
 
-#ifndef TYPE_OF
-#define TYPE_OF __typeof__
-#endif
+#include "phantom.h"
 
-#define StackOf(T)         T*
-#define st_init(T)       ((T*)st_init_r(sizeof(T)))
-#define st_size(st)      st_size_r((Stack)(st))
+#define ST_CHK(vs) \
+    PH_CHK(vs, __ST_TAG, "Expected StackOf(T)")
 
-#define st_push(st, ...) st_push_r((Stack)(st), &(TYPE_OF(*(st))){__VA_ARGS__})
-#define st_pop(st)       st_pop_r((Stack)(st))
+#define ST_T(x)          PH_ELEM(x)
+#define ST_CAST(st)      ((Stack)(st))
+#define StackOf(T)       PH_TYPE(T, __ST_TAG)
 
-#define st_top(st)       ((TYPE_OF(*(st))*)st_top_r((Stack)(st)))
+#define st_init(T)       ((StackOf(T))st_init_r(sizeof(T)))
+#define st_size(st)      (ST_CHK(st), st_size_r(ST_CAST(st)))
 
-#define st_clear(st)     st_clear_r((Stack)(st))
+#define st_push(st, ...) (\
+    ST_CHK(st), \
+    st_push_r(ST_CAST(st), &(ST_T(st)){__VA_ARGS__}))
+
+#define st_pop(st)       (ST_CHK(st), st_pop_r(ST_CAST(st)))
+
+#define st_top(st)       (ST_CHK(st), (ST_T(st)*)st_top_r(ST_CAST(st)))
+
+#define st_clear(st)     (ST_CHK(st), st_clear_r(ST_CAST(st)))
 
 #endif // stack_h_INCLUDED
