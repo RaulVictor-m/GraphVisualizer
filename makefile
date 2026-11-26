@@ -1,7 +1,7 @@
 DEBUG_PROGRAM = valgrind
 
 BUILD = build
-CFLAGS = -Wall -Wextra -g -std=c11 -Wpedantic
+CFLAGS = -Wall -Wextra -g -std=gnu11 -Wpedantic
 
 RAYLIB_DIR = lib/raylib
 
@@ -18,11 +18,11 @@ $(BUILD)/structs.a: $(STRUCT_OBJS)
 
 bin/test: test/test.c $(BUILD)/structs.a
 	mkdir -p bin
-	gcc $^ -I$(STRUCT_DIR) -o bin/test
+	gcc $^ $(CFLAGS) -I$(STRUCT_DIR) -o bin/test
 
 app: src/main.c $(BUILD)/structs.a
 	mkdir -p bin
-	gcc $^ -I$(STRUCT_DIR) -I$(RAYLIB_DIR)/include \
+	gcc $^ $(CFLAGS) -I$(STRUCT_DIR) -I$(RAYLIB_DIR)/include \
 	-L./$(RAYLIB_DIR)/lib -l:libraylib.so -lm -lX11 -o app
 
 run_test: bin/test

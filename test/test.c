@@ -13,10 +13,10 @@ void test_raw_stack(int n) {
 
     for (int i = n; i > 0; i--) {
         assert(*(int*)st_top_r(st) == i*i);
-        assert(st_size_r(st) == i);
+        assert(st_size_r(st) == (size_t)i);
 
         st_pop_r(st);
-        assert(st_size_r(st) == i-1);
+        assert(st_size_r(st) == (size_t)i-1);
     }
 
     st_clear_r(st);
@@ -30,10 +30,10 @@ void test_typed_stack(int n) {
 
     for (int i = n; i > 0; i--) {
         assert(*st_top(st) == i*i);
-        assert(st_size(st) == i);
+        assert(st_size(st) == (size_t)i);
 
         st_pop(st);
-        assert(st_size(st) == i-1);
+        assert(st_size(st) == (size_t)i-1);
     }
 
     st_clear(st);
@@ -47,10 +47,10 @@ void test_raw_array_list(int n) {
 
     for (int i = n; i > 0; i--) {
         assert(*(int*)al_at_r(vs, i-1) == i*i);
-        assert(al_size_r(vs) == i);
+        assert(al_size_r(vs) == (size_t)i);
 
         al_pop_back_r(vs);
-        assert(al_size_r(vs) == i-1);
+        assert(al_size_r(vs) == (size_t)i-1);
     }
 
     al_clear_r(vs);
@@ -64,10 +64,10 @@ void test_typed_array_list(int n) {
 
     for (int i = n; i > 0; i--) {
         assert(*al_at(vs, i-1) == i*i);
-        assert(al_size(vs) == i);
+        assert(al_size(vs) == (size_t)i);
 
         al_pop_back(vs);
-        assert(al_size(vs) == i-1);
+        assert(al_size(vs) == (size_t)i-1);
     }
 
     al_clear(vs);
@@ -81,7 +81,7 @@ void test_raw_linked_list(int n) {
         // else          ll_push_front_r(ls, &(int){i*i});
 
     int i = 1;
-    for (auto it = ll_head_r(ls); it != ll_end_r(ls); it = ll_next_r(it)) {
+    for (LinkedListIt(int) it = ll_head_r(ls); it != ll_end_r(ls); it = ll_next_r(it)) {
         assert(*(int*)ll_at_r(it) == i*i);
         i++;
     }
@@ -94,7 +94,7 @@ void test_typed_linked_list(int n) {
     for (int i = 1; i <= n; i++) ll_push_back(ls, i*i);
 
     int i = 1;
-    for (auto it = ll_head(ls); it != ll_end(ls); it = ll_next(it)) {
+    for (LinkedListIt(int) it = ll_head(ls); it != ll_end(ls); it = ll_next(it)) {
         assert(*ll_at(it) == i*i);
         i++;
     }
