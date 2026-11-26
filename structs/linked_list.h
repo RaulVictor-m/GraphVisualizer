@@ -53,9 +53,9 @@ void ll_pop_front_r(LinkedList ls);
 #define ll_tail(ls)  (LL_CHK(ls), (LinkedListIt(LL_T(ls)))ll_tail_r(LL_CAST(ls)))
 #define ll_end(ls)   (LL_CHK(ls), (LinkedListIt(LL_T(ls)))ll_end_r(LL_CAST(ls)))
 
-#define ll_at(it)    (LL_CHK_IT(it), (LL_T(ls)*)ll_at_r((void*)(it)))
-#define ll_next(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(ls)))ll_next_r((void*)(it)))
-#define ll_prev(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(ls)))ll_prev_r((void*)(it)))
+#define ll_at(it)    (LL_CHK_IT(it), (LL_T(it)*)ll_at_r((void*)(it)))
+#define ll_next(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(it)))ll_next_r((void*)(it)))
+#define ll_prev(it)  (LL_CHK_IT(it), (LinkedListIt(LL_T(it)))ll_prev_r((void*)(it)))
 
 #define ll_insert_after(ls, it, ...) (\
     LL_CHK(ls), LL_CHK_IT(it), \
