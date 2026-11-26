@@ -19,8 +19,7 @@ enum {
 #define PH_ELEM(x)         TYPE_OF(***(x)) 
 
 // MAGIC
-#define PH_ASSERT(cond, m) ({ _Static_assert((cond), m); (void)0; })
-// #define PH_CHK(x, TAG, m)  PH_ASSERT((sizeof((*(x))) == (size_t)(TAG)*sizeof((**(x)))), m)
-#define PH_CHK(x, TAG, m) (assert(1))
+#define PH_ASSERT(cond, m) ((void)sizeof(struct { _Static_assert((cond), m); char _; }))
+#define PH_CHK(x, TAG, m)  PH_ASSERT((sizeof(*(x)) == (size_t)(TAG) * sizeof(**(x))), m)
 
 #endif // phantom_h_INCLUDED
