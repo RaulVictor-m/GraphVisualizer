@@ -68,7 +68,7 @@ size_t al_size_r(ArrayList vs) { return vs->size; }
 void al_push_back_r(ArrayList vs, void *new_data) {
     if (vs->size == vs->cap) _grow(vs);
 
-    copy(vs->data + vs->size * vs->elem_sz, new_data, vs->elem_sz);
+    copy((char*)vs->data + vs->size * vs->elem_sz, new_data, vs->elem_sz);
     vs->size++;
 }
 
@@ -88,7 +88,7 @@ void* al_at_r(ArrayList vs, size_t i) {
         return 0;
     }
 
-    return vs->data + i*vs->elem_sz;
+    return (char*)vs->data + i*vs->elem_sz;
 }
 
 void* al_back_r(ArrayList vs) {
